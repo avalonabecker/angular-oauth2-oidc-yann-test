@@ -21,7 +21,7 @@ import {AppState} from './appState';
     BrowserModule,
     FormsModule,
     HttpModule,
-    SimpleNotificationsModule
+    SimpleNotificationsModule.forRoot()
   ],
   providers: [OAuthService, AppState],
   bootstrap: [AppComponent]

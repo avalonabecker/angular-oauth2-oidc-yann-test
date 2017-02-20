@@ -6,7 +6,7 @@ import {  OAuthService } from 'angular-oauth2-oidc';
 export class AppState {
   public implicitFlow : boolean;
 
-  constructor(private oauthService : OAuthService){   
+  constructor(private oauthService : OAuthService){
     //choose one of them configurations otherwise it override the other.
     //this.configureImplFlow();
     this.configureWithPasswordFlow();
@@ -15,14 +15,16 @@ export class AppState {
   public configureImplFlow(){
         this.implicitFlow=true;
         // URL of the SPA to redirect the user to after login
-        this.oauthService.redirectUri = window.location.origin + "/index.html";
+        this.oauthService.redirectUri = 'http://localhost:4200/callback';
+
+        this.oauthService.logoutUrl = 'http://localhost:4200/index.html';
 
         // The SPA's id. The SPA is registerd with this id at the auth-server
-        this.oauthService.clientId = "spa-demo";
+        this.oauthService.clientId = "";
 
         // set the scope for the permissions the client should request
         // The first three are defined by OIDC. The 4th is a usecase-specific one
-        this.oauthService.scope = "openid profile email voucher";
+        this.oauthService.scope = "https://www.googleapis.com/auth/plus.login";
 
         // set to true, to receive also an id_token via OpenId Connect (OIDC) in addition to the
         // OAuth2-based access_token
@@ -32,8 +34,8 @@ export class AppState {
         // instead of localStorage
         this.oauthService.setStorage(sessionStorage);
 
-        // Discovery Document of your AuthServer as defined by OIDC 
-        let url = 'https://steyer-identity-server.azurewebsites.net/identity/.well-known/openid-configuration';
+        // Discovery Document of your AuthServer as defined by OIDC
+        let url = 'https://accounts.google.com/.well-known/openid-configuration';
 
         // Load Discovery Document and then try to login the user
         this.oauthService.loadDiscoveryDocument(url).then(() => {
@@ -41,19 +43,19 @@ export class AppState {
             // This method just tries to parse the token(s) within the url when
             // the auth-server redirects the user back to the web-app
             // It dosn't send the user the the login page
-            this.oauthService.tryLogin({});      
+            this.oauthService.tryLogin({});
 
-        });  
+        });
     }
 
     public configureWithPasswordFlow(){
         this.implicitFlow=false;
         // The SPA's id. Register SPA with this id at the auth-server
-        this.oauthService.clientId = "demo-resource-owner";
+      this.oauthService.clientId = "demo-resource-owner";
 
         // set the scope for the permissions the client should request
         // The auth-server used here only returns a refresh token (see below), when the scope offline_access is requested
-        this.oauthService.scope = "openid profile email voucher offline_access";
+      this.oauthService.scope = "openid profile email voucher offline_access";
 
         // Use setStorage to use sessionStorage or another implementation of the TS-type Storage
         // instead of localStorage
@@ -67,10 +69,10 @@ export class AppState {
         this.oauthService.dummyClientSecret = "geheim";
 
         // Load Discovery Document and then try to login the user
-        let url = 'https://steyer-identity-server.azurewebsites.net/identity/.well-known/openid-configuration';
-        this.oauthService.loadDiscoveryDocument(url).then(() => {
+      let url = 'https://steyer-identity-server.azurewebsites.net/identity/.well-known/openid-configuration';
+      this.oauthService.loadDiscoveryDocument(url).then(() => {
             // Do what ever you want here
         });
     }
 
-}  
+}

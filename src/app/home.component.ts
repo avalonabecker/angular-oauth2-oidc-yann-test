@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { AppState } from './appState';
- 
+
 @Component({
     selector: 'home-component',
-    templateUrl: "app/home.component.html" 
+    templateUrl: "./home.component.html"
 })
 export class HomeComponent {
 
@@ -18,7 +18,7 @@ export class HomeComponent {
         console.log(appState.implicitFlow);
         this.implicitFlow = appState.implicitFlow;
     }
-    
+
 
     public loginWithPassword() {
         console.log("password flow");
@@ -37,15 +37,15 @@ export class HomeComponent {
         console.log("impl flow");
         this.oauthService.initImplicitFlow();
     }
-    
+
     public logoff() {
         this.oauthService.logOut();
     }
-    
+
     public get name() {
         let claims = this.oauthService.getIdentityClaims();
         if (!claims) return null;
-        return claims.given_name; 
+        return claims.given_name;
     }
 
     public switchFlow(){
@@ -58,5 +58,5 @@ export class HomeComponent {
             this.implicitFlow = this.appState.implicitFlow;
         }
     }
-    
+
 }
